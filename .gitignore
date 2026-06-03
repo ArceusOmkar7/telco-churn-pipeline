@@ -12,3 +12,5 @@ wheels/
 # Project files
 data
 model
+mlartifacts
+mlflow.db
