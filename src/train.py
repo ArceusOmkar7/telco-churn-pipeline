@@ -25,16 +25,15 @@ def train(X_train, y_train, X_test, y_test):
     }
     rf_clf = RandomForestClassifier(**rf_params)
 
-    with mlflow.start_run():
-        rf_clf.fit(X_train, y_train)
+    rf_clf.fit(X_train, y_train)
 
-        y_pred = rf_clf.predict(X_test)
-        y_pred_proba = rf_clf.predict_proba(X_test)[:, 1]
+    # y_pred = rf_clf.predict(X_test)
+    # y_pred_proba = rf_clf.predict_proba(X_test)[:, 1]
 
-        mlflow.log_metric("accuracy", accuracy_score(y_test, y_pred))
-        mlflow.log_metric("f1 score", f1_score(y_test, y_pred))
-        mlflow.log_metric("auc", roc_auc_score(y_test, y_pred_proba))
-        mlflow.sklearn.log_model(rf_clf, artifact_path="model")
+    # mlflow.log_metric("accuracy", accuracy_score(y_test, y_pred))
+    # mlflow.log_metric("f1 score", f1_score(y_test, y_pred))
+    # mlflow.log_metric("auc", roc_auc_score(y_test, y_pred_proba))
+    # mlflow.sklearn.log_model(rf_clf, artifact_path="model")
 
 if __name__ == "__main__":
     # Putting header none, so pandas doesn't make the first row header
