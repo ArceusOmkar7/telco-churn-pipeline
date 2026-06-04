@@ -1,7 +1,6 @@
 import pandas as pd
 import mlflow
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 
 from pathlib import Path
 import logging
@@ -15,7 +14,7 @@ logger = logging.getLogger(__name__)
 # ML FLow setup
 mlflow.set_tracking_uri("http://localhost:5001")
 mlflow.set_experiment("Telco Churn Pipeline")
-mlflow.sklearn.autolog(log_models=False)
+mlflow.sklearn.autolog()
 logger.info("Ml flow setup done")
 
 
@@ -24,8 +23,10 @@ def train(X_train, y_train, X_test, y_test):
         "criterion": "gini",    # preferred for binary classification
     }
     rf_clf = RandomForestClassifier(**rf_params)
-
+    logger.info("Training model with params: %s", rf_params)
     rf_clf.fit(X_train, y_train)
+
+    logger.info("Model trained")
 
     # y_pred = rf_clf.predict(X_test)
     # y_pred_proba = rf_clf.predict_proba(X_test)[:, 1]
@@ -33,7 +34,8 @@ def train(X_train, y_train, X_test, y_test):
     # mlflow.log_metric("accuracy", accuracy_score(y_test, y_pred))
     # mlflow.log_metric("f1 score", f1_score(y_test, y_pred))
     # mlflow.log_metric("auc", roc_auc_score(y_test, y_pred_proba))
-    # mlflow.sklearn.log_model(rf_clf, artifact_path="model")
+
+    # mlflow.sklearn.log_model(rf_clf, name="model")
 
 if __name__ == "__main__":
     # Putting header none, so pandas doesn't make the first row header
