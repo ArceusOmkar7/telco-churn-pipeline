@@ -37,6 +37,11 @@ def train(X_train, y_train, X_test, y_test):
 
     # mlflow.sklearn.log_model(rf_clf, name="model")
 
+
+    # Log the preprocessor.pkl as a artifact
+    mlflow.log_artifact("model/preprocessor.pkl")
+    logger.info("Logged preprocessor.pkl as an artifact.")
+
 if __name__ == "__main__":
     # Putting header none, so pandas doesn't make the first row header
     X_train = pd.read_csv(PROCESSED_DIR / 'X_train.csv', header=None)
