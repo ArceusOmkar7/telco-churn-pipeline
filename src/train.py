@@ -24,9 +24,14 @@ def train(X_train, y_train, X_test, y_test):
     }
     rf_clf = RandomForestClassifier(**rf_params)
     logger.info("Training model with params: %s", rf_params)
-    rf_clf.fit(X_train, y_train)
-
-    logger.info("Model trained")
+    
+    with mlflow.start_run():
+        rf_clf.fit(X_train, y_train)
+        logger.info("Model trained")
+        
+        # Log the preprocessor.pkl as a artifact
+        mlflow.log_artifact("model/preprocessor.pkl")
+        logger.info("Logged preprocessor.pkl as artifact")
 
     # y_pred = rf_clf.predict(X_test)
     # y_pred_proba = rf_clf.predict_proba(X_test)[:, 1]
@@ -38,9 +43,6 @@ def train(X_train, y_train, X_test, y_test):
     # mlflow.sklearn.log_model(rf_clf, name="model")
 
 
-    # Log the preprocessor.pkl as a artifact
-    mlflow.log_artifact("model/preprocessor.pkl")
-    logger.info("Logged preprocessor.pkl as an artifact.")
 
 if __name__ == "__main__":
     # Putting header none, so pandas doesn't make the first row header
