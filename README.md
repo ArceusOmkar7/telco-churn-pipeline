@@ -45,6 +45,8 @@ All steps are orchestrated as a Prefect flow with per-task logging, retries on f
 
 ## Screenshots
 
+The pipeline includes experiment tracking with MLflow, orchestration with Prefect, automated evaluation, and model monitoring.
+
 | MLflow Runs | Run Overview |
 | --- | --- |
 | ![](docs/images/mlflow_runs.png) | ![](docs/images/mlflow_run_overview.png) |
