@@ -14,3 +14,4 @@ data
 model
 mlartifacts
 mlflow.db
+report.html

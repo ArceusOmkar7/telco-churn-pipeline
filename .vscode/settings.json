@@ -1,0 +1,12 @@
+{
+    "files.watcherExclude": {
+        "**/mlartifacts/**": true,
+        "**/data/**": true,
+        "**/model/**": true
+    },
+    "search.exclude": {
+        "**/mlartifacts/**": true,
+        "**/data/**": true,
+        "**/model/**": true
+    }
+}
