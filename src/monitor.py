@@ -7,7 +7,6 @@ from evidently.presets import DataDriftPreset
 
 DATA_DIR = Path("data")
 RAW_DATA_DIR = DATA_DIR / "raw"
-FILEPATH = next(Path(RAW_DATA_DIR).glob("*.csv"))
 
 REFERENCE_DIR = DATA_DIR / "reference"
 
@@ -16,8 +15,9 @@ logger = logging.getLogger(__name__)
 
 
 def load_records():
+    filepath = next(Path(RAW_DATA_DIR).glob("*.csv"))
     ref_df = pd.read_csv(REFERENCE_DIR / "reference.csv")
-    sim_prod_df = pd.read_csv(FILEPATH)
+    sim_prod_df = pd.read_csv(filepath)
 
     ref_df = ref_df.drop(columns=["Churn"])
     sim_prod_df = sim_prod_df.drop(columns=["customerID", "Churn"])

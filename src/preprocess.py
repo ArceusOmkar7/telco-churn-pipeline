@@ -18,7 +18,6 @@ MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
 DATA_DIR = Path("data")
 RAW_DATA_DIR = DATA_DIR / "raw"
-FILEPATH = next(Path(RAW_DATA_DIR).glob("*.csv"))
 
 PROCESSED_DIR = DATA_DIR / "processed"
 PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
@@ -116,7 +115,8 @@ def preprocess(df):
 
 
 if __name__ == "__main__":
-    df = pd.read_csv(FILEPATH)
-    logger.info("Loaded dataset: %s", FILEPATH)
+    filepath = next(Path(RAW_DATA_DIR).glob("*.csv"))
+    df = pd.read_csv(filepath)
+    logger.info("Loaded dataset: %s", filepath)
 
     preprocess(df)
