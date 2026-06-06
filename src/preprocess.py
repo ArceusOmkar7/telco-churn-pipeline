@@ -112,6 +112,8 @@ def preprocess(df):
         pickle.dump(preprocessing_pipeline, f)
         logger.info("Saved preprocessor to %s", preprocessor_file)
 
+    return X_train, X_test, y_train, y_test
+
 
 if __name__ == "__main__":
     df = pd.read_csv(FILEPATH)
