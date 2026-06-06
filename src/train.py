@@ -1,12 +1,12 @@
-import pandas as pd
+import logging
+from pathlib import Path
+
 import mlflow
+import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
-from pathlib import Path
-import logging
-
-DATA_DIR = Path('data')
-PROCESSED_DIR = DATA_DIR / 'processed'
+DATA_DIR = Path("data")
+PROCESSED_DIR = DATA_DIR / "processed"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,21 +14,22 @@ logger = logging.getLogger(__name__)
 # ML FLow setup
 mlflow.set_tracking_uri("http://localhost:5001")
 mlflow.set_experiment("Telco Churn Pipeline")
-mlflow.sklearn.autolog()
+mlflow.sklearn.autolog(log_models=False)
 logger.info("Ml flow setup done")
 
 
 def train(X_train, y_train, X_test, y_test):
     rf_params = {
-        "criterion": "gini",    # preferred for binary classification
+        "criterion": "gini",  # preferred for binary classification
     }
     rf_clf = RandomForestClassifier(**rf_params)
     logger.info("Training model with params: %s", rf_params)
-    
+
     with mlflow.start_run():
         rf_clf.fit(X_train, y_train)
         logger.info("Model trained")
-        
+        mlflow.sklearn.log_model(rf_clf, artifact_path="model")
+
         # Log the preprocessor.pkl as a artifact
         mlflow.log_artifact("model/preprocessor.pkl")
         logger.info("Logged preprocessor.pkl as artifact")
@@ -43,14 +44,13 @@ def train(X_train, y_train, X_test, y_test):
     # mlflow.sklearn.log_model(rf_clf, name="model")
 
 
-
 if __name__ == "__main__":
     # Putting header none, so pandas doesn't make the first row header
-    X_train = pd.read_csv(PROCESSED_DIR / 'X_train.csv', header=None)
-    X_test = pd.read_csv(PROCESSED_DIR / 'X_test.csv', header=None)
+    X_train = pd.read_csv(PROCESSED_DIR / "X_train.csv", header=None)
+    X_test = pd.read_csv(PROCESSED_DIR / "X_test.csv", header=None)
 
     # df with single row/col (here col) will be squeezed into a Series
-    y_train = pd.read_csv(PROCESSED_DIR / 'y_train.csv', header=None).squeeze()
-    y_test = pd.read_csv(PROCESSED_DIR / 'y_test.csv', header=None).squeeze()
+    y_train = pd.read_csv(PROCESSED_DIR / "y_train.csv", header=None).squeeze()
+    y_test = pd.read_csv(PROCESSED_DIR / "y_test.csv", header=None).squeeze()
 
     train(X_train, y_train, X_test, y_test)
