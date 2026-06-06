@@ -12,6 +12,7 @@ dependencies = [
     "mlflow>=2.13.0",
     "numpy<2",
     "pandas>=2.0,<3",
+    "prefect>=3.7.4",
     "protobuf==3.20.3",
     "scikit-learn==1.2.2",
     "setuptools<81",
